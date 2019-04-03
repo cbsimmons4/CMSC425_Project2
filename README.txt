@@ -1,3 +1,4 @@
 CMSC425 Project2
 
-Hello
+Open Scene Project2Scene/Project2
+
