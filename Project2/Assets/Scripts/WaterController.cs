@@ -11,7 +11,7 @@ public class WaterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        RenderSettings.fog = true;
         RenderSettings.fogDensity = 0;
         RenderSettings.fogColor = new Color(0.22f, 0.65f, 0.77f, 0.5f);
     }
