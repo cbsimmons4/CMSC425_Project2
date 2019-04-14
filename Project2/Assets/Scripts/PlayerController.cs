@@ -15,14 +15,17 @@ public class PlayerController : MonoBehaviour
     bool paused;
     Rigidbody m_Rigidbody;
     int task;
+    static Animator anim;
     private void Start()
     {
         Time.timeScale = 1;
+        GameObject.Find("Crabs").SetActive(true);
         gameOn = true;
         paused = false;
         m_Rigidbody = GetComponent<Rigidbody>();
-        objective.text = "Objective: Get the key from the boat.";
+        objective.text = "Objective: Get the key from under the boat";
         task = 0;
+        anim = gameObject.GetComponent<Animator>();
     }
 
     private void Update()
@@ -36,7 +39,7 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 1;
             SceneManager.LoadScene(0);
         }
-
+        
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (gameOn)
@@ -55,6 +58,34 @@ public class PlayerController : MonoBehaviour
                 paused = !paused;
             }
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (transform.position.y < 5 && transform.position.y >= 3)
+            {
+                anim.SetTrigger("jump");
+                m_Rigidbody.AddForce(transform.up + new Vector3(0, 400, 0));
+            }
+        }
+        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+        if (vertical < 0)
+        {
+            if (transform.position.y < 5)
+            {
+                anim.SetTrigger("flip");
+                m_Rigidbody.AddForce(transform.up + new Vector3(0, 10, 0));
+            }
+        }
+
+        anim.SetBool("isSwimming",vertical > 0 &&transform.position.y<3);
+        anim.SetBool("isTreading",vertical==0 && transform.position.y < 3);
+        anim.SetBool("isWalking", vertical > 0 && transform.position.y >=3);
+        if (vertical > 0)
+        {  
+            transform.Translate(Vector3.forward * 10 * Time.deltaTime);
+        }
+        
+            transform.Rotate(new Vector3(0, horizontal * 2, 0));
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,7 +130,9 @@ public class PlayerController : MonoBehaviour
                 text.color = Color.green;
                 text.text = "You Win!";
                 gameOn = false;
-                Time.timeScale = 0;
+                anim.SetTrigger("dance");
+                GameObject.Find("Crabs").SetActive(false);
+                //Time.timeScale = 0;
             }
         }
     }
