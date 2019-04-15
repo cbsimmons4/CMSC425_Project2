@@ -29,7 +29,6 @@ public class CrabController : MonoBehaviour
         if (agent.enabled)
         {
             agent.SetDestination(target.position + (new Vector3(Random.Range(-2F, 2F), Random.Range(-2F, 2F), Random.Range(-2F, 2F))));
-
         }
     }
 }
