@@ -39,7 +39,8 @@ public class PlayerController : MonoBehaviour
             Time.timeScale = 1;
             SceneManager.LoadScene(0);
         }
-        
+
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (gameOn)
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
         }
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
+        if (!gameOn) { vertical = 0; horizontal = 0; }
         if (vertical < 0)
         {
             if (transform.position.y < 5)
